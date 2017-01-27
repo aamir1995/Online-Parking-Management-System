@@ -4,6 +4,7 @@ import { UploadResumeComponent } from './uploadResumeComponent/uploadResumeCompo
 import { PostJobsComponent } from './postJobsComponent/postJobsComponent';
 import { showJobsComponent } from './showJobsComponent/showJobsComponent';
 import { showAppliedComponent } from './showAppliedCandidates/appliedCandidates';
+import { ParkingSlotsComponent } from './parkingSlotsComponent/parkingSlotsComponent';
 
 export const Components: any[] = [
     LoginComponent,
@@ -11,7 +12,8 @@ export const Components: any[] = [
     UploadResumeComponent,
     PostJobsComponent,
     showJobsComponent,
-    showAppliedComponent
+    showAppliedComponent,
+    ParkingSlotsComponent
 ];
 
 export {
@@ -20,5 +22,6 @@ export {
     UploadResumeComponent,
     PostJobsComponent,
     showJobsComponent,
-    showAppliedComponent
+    showAppliedComponent,
+    ParkingSlotsComponent
 };

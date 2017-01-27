@@ -1,1 +1,1 @@
-# Campus Recruitment System (Code Marathon Project)
+# Online Parking Management System (Code Marathon Project)
