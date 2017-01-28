@@ -1,20 +1,14 @@
 import { Observable } from 'rxjs/Rx';
-import { Injectable, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as fb from 'firebase';
 import { FirebaseApp, AngularFire, FirebaseObjectObservable } from 'angularfire2';
-import { BehaviorSubject } from 'rxjs';
 import "rxjs/add/operator/take";
 
 
 @Injectable()
 export class FirebaseService {
     uuid: string;
-    accountType: string;
-    // private ref: fb.database.Reference;
-    // private storage: fb.storage.Reference;
-    // private auth: fb.auth.Auth;
-    // public firebaseTimeStamp = fb.database['ServerValue'].TIMESTAMP;
 
     constructor(private af: AngularFire, private router: Router) {
         this.checkUserAuth()
@@ -69,10 +63,6 @@ export class FirebaseService {
         return this.af.database.object('').update(obj);
     }
 
-    getSpecificCompanyJobs(uuid: string) {
-        return this.af.database.list('jobsByCompanies/' + uuid)
-    }
-
     getAllReservations() {
         return this.af.database.list('allBookings/')
     }
@@ -90,25 +80,6 @@ export class FirebaseService {
             .object(`users/${this.uuid}`)
     };
 
-    getAllCandidates(postUId) {
-        return this.af.database.object('jobsByCompanies/' + this.uuid + '/' + postUId);
-    }
-
-    saveJobDetail(jobObj: Object) {
-        jobObj['postedOn'] = firebase.database['ServerValue'].TIMESTAMP;
-        jobObj['uid'] = this.uuid;
-        jobObj['appliedCandidates'] = "";
-
-        let pushKey = firebase.database().ref().push();
-
-        let obj = {};
-
-        obj['jobsByCompanies/' + this.uuid + '/' + pushKey.key] = jobObj;
-        obj['allJobs/' + pushKey.key] = jobObj;
-
-        return firebase.database().ref().update(obj)
-    }
-
     logOutUser() {
         return Promise.resolve(this.af.auth.logout());
     }
@@ -117,23 +88,6 @@ export class FirebaseService {
         return this.af.auth.createUser({ 'email': email, 'password': password });
     };
 
-    applyForJob(companyUid: string, postUid) {
-        this.af.database.object('users/' + this.uuid)
-            .take(1)
-            .subscribe(data => {
-                if (data.status) {
-                    let userData = { 'firstname': data.firstName, 'lastname': data.lastName, 'gender': data.gender, 'cnic': data.cnic, 'mobile': data.mobile };
-                    let obj = {};
-                    let userObj = { [this.uuid]: userData };
-                    obj['jobsByCompanies/' + companyUid + '/' + postUid + "/appliedCandidates"] = userObj;
-                    obj['allJobs/' + postUid + "/appliedCandidates"] = userObj;
-                    return firebase.database().ref().update(obj);
-                } else {
-                    this.router.navigate(['resume']);
-                    return alert("Oh Snap! You Haven't uploaded your resume yet, Please Upload it ASAP!");
-                }
-            })
-    }
 
     login(email: string, password: string) {
         return this.af.auth.login({ 'email': email, 'password': password })
@@ -146,15 +100,6 @@ export class FirebaseService {
             .set(detailsObject);
     };
 
-    uploadResumeToFirebase(resumeObj: Object) {
-        resumeObj['status'] = true;
-        return this.af.database.object(`users/${this.uuid}`)
-            .update(resumeObj);
-    };
-
-    getAllJobs() {
-        return this.af.database.list(`allJobs/`);
-    }
 
     // saveMultipath(multipath) {
     //     return this.ref.update(multipath);

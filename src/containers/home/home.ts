@@ -13,7 +13,6 @@ import 'rxjs/add/operator/mergeMap';
 })
 export class HomeContainer {
   isAdmin: boolean = false;
-  allJobs$: Observable<any>;
   specificJobs$: Observable<any>;
   allReservations$: Observable<any>;
   allRes$: Observable<any>;
@@ -27,19 +26,9 @@ export class HomeContainer {
       .take(1)
       .subscribe(auth => this.uuid = auth.uid);
 
-
-    this.fs.returnAccountType()
-      .subscribe(data => {
-        if (data.type == 1) { this.isAdmin = true }
-        this.specificJobs$ = this.fs.getSpecificCompanyJobs(this.uuid);
-      });
-    this.fs.returnAccountType();
-    this.allJobs$ = this.fs.getAllJobs();
-
     this.allReservations$ = this.fs.getAllReservations();
 
     this.allRes$ = this.fs.getAllRes();
-
   }
 
   deleteUserBooking(e) {
@@ -52,14 +41,6 @@ export class HomeContainer {
     this.fs.bookSlot(e)
       .then(() => alert("successfully booked your slot"))
       .catch(err => console.log(err + "an error occured in booking slot"));
-  }
-
-  apply(e) {
-    this.fs.applyForJob(e.companyUid, e.jobUid)
-  }
-
-  viewAllCandidates(e) {
-    this.router.navigate(['appliedCandidates', e]);
   }
 
 }
