@@ -24,11 +24,10 @@ export class LoginComponent {
             'password': '',
             'name': ''
         })
-    }
+    };
 
     ngOnInit() {
         $(() => {
-
             $('#login-form-link').click(function (e) {
                 $("#login-form").delay(100).fadeIn(100);
                 $("#register-form").fadeOut(100);

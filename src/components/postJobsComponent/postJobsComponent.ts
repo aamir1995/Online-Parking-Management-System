@@ -26,9 +26,7 @@ export class PostJobsComponent {
 
     ngOnInit() { }
 
-    // Again we’ll implement our form submit function that will just console.log the results of our form
     submitForm(value: any): void {
-        console.log(value);
         this.jobDesc.emit(value);
     }
 

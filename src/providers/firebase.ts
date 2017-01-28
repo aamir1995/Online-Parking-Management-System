@@ -19,23 +19,75 @@ export class FirebaseService {
     constructor(private af: AngularFire, private router: Router) {
         this.checkUserAuth()
             .subscribe(auth => {
-                // console.log(auth.uid + " subsssssssssssssssss");
                 if (auth !== null) { this.uuid = auth.uid };
             });
+
     };
+
+    getUserDetails() {
+        return this.af.database.object('users/' + this.uuid)
+            .take(1);
+    }
+
+    getMyBookings() {
+        return this.af.database.list('userBookings/' + this.uuid);
+    }
+    getAllRes() {
+        return this.af.database.list('allRes/');
+    }
+
+    delUserBooking(postObj: string) {
+        let obj = {};
+        console.log("from service", postObj)
+        obj['allBookings/' + postObj['location'] + "/" + postObj['slot'] + '/' + postObj['key']] = null;
+        obj['allRes/' + postObj['key']] = null;
+        obj['userBookings/' + postObj['uid'] + "/" + postObj['key']] = null;
+
+        return this.af.database.object('').update(obj);
+    }
+
+    saveFeedback(feedbackObj: Object) {
+        feedbackObj['uuid'] = this.uuid;
+        return this.af.database.list('feedbacks/').push(feedbackObj);
+    }
+
+    getAllFeedbacks() {
+        return this.af.database.list("feedbacks");
+    }
+
+    bookSlot(slotObj) {
+        slotObj['uid'] = this.uuid;
+
+        let pushKey = firebase.database().ref().push();
+
+        let obj = {};
+
+        obj['allBookings/' + slotObj['selectedLocation'] + '/' + slotObj['selectedSlot'] + '/' + pushKey.key] = slotObj;
+        obj['allRes/' + pushKey.key] = slotObj;
+        obj['userBookings/' + this.uuid + "/" + pushKey.key] = slotObj;
+
+        return this.af.database.object('').update(obj);
+    }
 
     getSpecificCompanyJobs(uuid: string) {
         return this.af.database.list('jobsByCompanies/' + uuid)
+    }
+
+    getAllReservations() {
+        return this.af.database.list('allBookings/')
     }
 
     checkUserAuth() {
         return this.af.auth;
     }
 
+    replyToFeedback(feedbackObj) {
+        return this.af.database.object('feedbacks/' + feedbackObj.postKey + "/" + "reply").set(feedbackObj.replyText)
+    }
+
     returnAccountType() {
         return this.af.database
             .object(`users/${this.uuid}`)
-            .take(1)
     };
 
     getAllCandidates(postUId) {
@@ -88,6 +140,7 @@ export class FirebaseService {
     };
 
     saveExtraDetails(uid, detailsObject: Object) {
+        detailsObject['type'] = 2;
         console.log(detailsObject);
         return this.af.database.object(`users/${uid}`)
             .set(detailsObject);

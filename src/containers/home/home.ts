@@ -12,11 +12,11 @@ import 'rxjs/add/operator/mergeMap';
   encapsulation: ViewEncapsulation.None
 })
 export class HomeContainer {
-  isStudent: boolean = false;
-  isCompany: boolean = false;
+  isAdmin: boolean = false;
   allJobs$: Observable<any>;
   specificJobs$: Observable<any>;
-
+  allReservations$: Observable<any>;
+  allRes$: Observable<any>;
   uuid: string;
 
   constructor(private fs: FirebaseService, private router: Router) {
@@ -30,24 +30,32 @@ export class HomeContainer {
 
     this.fs.returnAccountType()
       .subscribe(data => {
-        if (data.type == 0) { this.isStudent = true } else {
-          this.isCompany = true
-        }
+        if (data.type == 1) { this.isAdmin = true }
         this.specificJobs$ = this.fs.getSpecificCompanyJobs(this.uuid);
       });
     this.fs.returnAccountType();
     this.allJobs$ = this.fs.getAllJobs();
 
+    this.allReservations$ = this.fs.getAllReservations();
 
+    this.allRes$ = this.fs.getAllRes();
 
   }
 
-  apply(e) {
-    console.log("from event", e);
+  deleteUserBooking(e) {
+    this.fs.delUserBooking(e)
+      .then(() => alert("successfully deleted User booking"))
+      .catch(err => console.log(err + "an error occured"));
+  }
 
+  bookSlot(e) {
+    this.fs.bookSlot(e)
+      .then(() => alert("successfully booked your slot"))
+      .catch(err => console.log(err + "an error occured in booking slot"));
+  }
+
+  apply(e) {
     this.fs.applyForJob(e.companyUid, e.jobUid)
-    // .then(() => console.log("applied successfully"))
-    // .catch(err => console.log(err + "an error occured"));
   }
 
   viewAllCandidates(e) {

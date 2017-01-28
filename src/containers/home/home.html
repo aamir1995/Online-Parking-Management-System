@@ -1,13 +1,2 @@
-<!--<div class="container" style="margin-top: 50px;">
-<div class="jumbotron">
-    <ng-container *ngIf="isStudent">
-        <show-jobs-component *ngFor="let job of (allJobs$ | async); let i = index" [jobs]="job" [index]="i" [uuid]="uuid" (applyForJob)="apply($event)"></show-jobs-component>
-    </ng-container>
-
-    <ng-container *ngIf="isCompany">
-        <show-applied-candidates *ngFor="let job of (specificJobs$ | async)" [myJobs]="job" (allCandidates)="viewAllCandidates($event)"></show-applied-candidates>
-    </ng-container>
-</div>
-</div>-->
-
-<parking-slots-component></parking-slots-component>
+<parking-slots-component (bookSlot)="bookSlot($event)" (removeBooking)="deleteUserBooking($event)" [isAdmin]="isAdmin" [allRes]="allRes$ | async"
+    [allReservations]="allReservations$ | async"></parking-slots-component>

@@ -1,0 +1,76 @@
+<div class="container" style="margin-top: 100px;" *ngIf="!isAdmin" >
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel-login">
+            <h3 style="text-align: center">Your comments and suggestions will be greatly appreciated.</h3>
+<hr>
+<div class="panel-body">
+
+    <form [formGroup]="feedbackForm" (ngSubmit)="submitForm(feedbackForm.value)" novalidate>
+        <div class="form-group">
+            <label for="comment">Your Feedback:</label>
+            <textarea class="form-control" rows="5" style="resize: none;" placeholder="Please type your feedback here ..." [formControl]="feedbackForm.controls['feedback']"></textarea>
+</div>
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+</div>
+</form>
+<hr>
+<br>
+<div class="row">
+    <div class="col-lg-6">
+        <h2>My Feedbacks</h2>
+        <div *ngFor="let item of userFeedbacks">
+            <div class="panel panel-primary" *ngIf="item.uuid == uuid">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <strong>Your FeedBack :</strong>{{item.feedback}}</h3>
+                </div>
+                <div class="panel-body">
+                    <span *ngIf="!item?.reply">You haven't recieved any reply yet.</span>
+                    <span *ngIf="item?.reply">
+                <strong>Admin Reply:</strong>{{item?.reply}}
+                </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="container" style="margin-top: 100px;" *ngIf="isAdmin">
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel-login">
+            <h3 style="text-align: center">User Feedbacks.</h3>
+<hr>
+<div class="panel-body" *ngFor="let feed of userFeedbacks">
+    <h3>{{feed.name}}</h3>
+    <p>{{feed.feedback}}</p>
+
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control" #note placeholder="Type a appreciation note">
+                <span class="input-group-btn">
+        <button class="btn btn-default" type="button" (click)="reply(feed.$key, note.value)">Reply!</button>
+      </span>
+            </div>
+        </div>
+
+    </div>
+
+    <hr>
+</div>
+</div>
+
+</div>
+</div>
+</div>

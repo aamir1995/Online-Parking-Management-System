@@ -7,7 +7,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
     styles: [require('./appliedCandidates.scss')]
 })
 export class showAppliedComponent {
-    // @Output() applyForJob = new EventEmitter;
     @Output() allCandidates = new EventEmitter;
     @Input() myJobs;
     constructor() {
@@ -21,7 +20,6 @@ export class showAppliedComponent {
     }
 
     viewAllCandidates(postUid) {
-        console.log("emiiiiiiii")
         this.allCandidates.emit(postUid);
     }
 

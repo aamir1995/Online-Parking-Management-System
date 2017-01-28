@@ -15,7 +15,6 @@ export class showJobsComponent {
     }
 
     ngOnInit() {
-        console.log('jobs', this.jobs);
     }
 
     apply(companyUid: string, jobUid: string) {
@@ -25,8 +24,6 @@ export class showJobsComponent {
 
     checkIfApplied(obj: any) {
         return obj[this.uuid]
-
-        // return obj.hasOwnProperty(Json.stringify(this.uuid));
     }
 
 }

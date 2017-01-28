@@ -13,8 +13,6 @@ export class CandidatesContainer {
     isStudent: boolean = false;
     isCompany: boolean = false;
     data: any;
-    // uuid: string;
-    // allCands$;
 
     constructor(private fs: FirebaseService, private router: ActivatedRoute) {
     }
@@ -29,13 +27,7 @@ export class CandidatesContainer {
             console.info(params);
             this.fs.getAllCandidates(params.id)
                 .subscribe(data => this.data = data.appliedCandidates);
-            // .subscribe(cands => console.log("alll cands", cands));
         });
-        // this.fs.checkUserAuth()
-        //     .take(1)
-        //     .subscribe(auth => this.uuid = auth.uid);
-
-        //     this
     }
 
 }

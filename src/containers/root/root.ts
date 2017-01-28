@@ -11,24 +11,24 @@ declare let firebase: any;
 })
 export class RootContainer {
   isLoggedIn: boolean = false;
-  // isStudent: boolean = false;
-  // isCompany: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private fs: FirebaseService, private router: Router) { }
 
   ngOnInit() {
+
+
     this.fs.checkUserAuth()
       .subscribe(auth => {
         if (auth !== null) {
           this.isLoggedIn = true;
-          // this.fs.returnAccountType()
-          //   .subscribe(data => {
-          //     data.type === 0 ? this.isStudent = true : this.isCompany = true
-          //   })
+          this.fs.returnAccountType()
+            .subscribe(data => {
+              if (data.type == 1) { this.isAdmin = true }
+            })
+
         } else {
           this.isLoggedIn = false;
-          // this.isStudent = false;
-          // this.isCompany = false;
         }
       })
   }

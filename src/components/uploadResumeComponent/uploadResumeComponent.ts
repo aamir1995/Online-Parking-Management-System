@@ -24,7 +24,6 @@ export class UploadResumeComponent {
 
     ngOnInit() { }
 
-    // Again we’ll implement our form submit function that will just console.log the results of our form
     submitForm(value: any): void {
         console.log(value);
         this.resume.emit(value);

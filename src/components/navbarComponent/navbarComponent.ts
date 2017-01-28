@@ -7,8 +7,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class NavbarComponent {
     @Input() isLoggedIn: boolean = false;
-    // @Input() isStudent: boolean = false;
-    // @Input() isCompany: boolean = false;
+    @Input() isAdmin: boolean = false;
 
     @Output() logout = new EventEmitter;
 

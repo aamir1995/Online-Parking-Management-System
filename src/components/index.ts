@@ -5,6 +5,8 @@ import { PostJobsComponent } from './postJobsComponent/postJobsComponent';
 import { showJobsComponent } from './showJobsComponent/showJobsComponent';
 import { showAppliedComponent } from './showAppliedCandidates/appliedCandidates';
 import { ParkingSlotsComponent } from './parkingSlotsComponent/parkingSlotsComponent';
+import { myBookingsComponent } from './myBookings/myBookings';
+import { feedbackComponent } from './feedbackComponent/feedbackComponent';
 
 export const Components: any[] = [
     LoginComponent,
@@ -13,7 +15,9 @@ export const Components: any[] = [
     PostJobsComponent,
     showJobsComponent,
     showAppliedComponent,
-    ParkingSlotsComponent
+    ParkingSlotsComponent,
+    myBookingsComponent,
+    feedbackComponent
 ];
 
 export {
@@ -23,5 +27,7 @@ export {
     PostJobsComponent,
     showJobsComponent,
     showAppliedComponent,
-    ParkingSlotsComponent
+    ParkingSlotsComponent,
+    myBookingsComponent,
+    feedbackComponent
 };

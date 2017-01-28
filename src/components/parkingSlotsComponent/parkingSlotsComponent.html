@@ -12,30 +12,95 @@
         <div class="form-inline form-group">
             <div class="form-group">
                 <label for="hours">Start Hours:</label>
-                <select id="hours" class="form-control" formControlName="startHours">
-                <option *ngFor="let hour of hours" value="{{hour}}">{{hour}} :00</option>
+                <select id="hours" class="form-control" formControlName="startHours" #t (change)="checkReservation(t.value, d.value)">
+                <option *ngFor="let hour of hours" [value]="hour">{{hour}} :00</option>
             </select>
             </div>
             <div class="form-group">
                 <label for="hours1">Select Hours:</label>
-                <select id="hours1" class="form-control" formControlName="selectHours">
-                <option *ngFor="let hour of selectHours" value="{{hour}}">{{hour}}</option>
+                <select id="hours1" class="form-control" #d formControlName="selectHours" (change)="checkReservation(t.value, d.value)">
+                <option *ngFor="let hour of selectHours" [value]="hour">{{hour}}</option>
             </select>
             </div>
         </div>
         <hr>
-        <!--<div class="container">-->
-        <div style="display: flex;align-items: center;justify-content: center;flex-wrap: wrap">
-<span *ngFor="let slot of slots">
-            <button style="margin: 10px 20px;width: 120px;" type="button" (click)="slotButton(slot)" class="btn btn-success">Slot Available</button>
+
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Broadway</a></li>
+                <!--<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Bourbon Street</a></li>
+                <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Michigan Avenue</a></li>-->
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="home">
+                    <div style="display: flex;align-items: center;justify-content: center;flex-wrap: wrap">
+<span *ngFor="let slot of slots; let i = index">
+        <button style="margin: 10px 20px;width: 120px;" type="button" (click)="slotButton(i, 0)" class="btn" [disabled]="slot.isReserved" [ngClass]="{'btn-success': !slot.isReserved,'btn-danger':slot.isReserved}">
+<span *ngIf="!slot.isReserved">Slot Available</span><span *ngIf="slot.isReserved">Reserved</span>
+</button>
+<!--<pre>{{allReservations | json}}</pre>-->
+
 </span>
 </div>
-<!--</div>-->
+</div>
+<div role="tabpanel" class="tab-pane fade" id="profile">
+    <div style="display: flex;align-items: center;justify-content: center;flex-wrap: wrap">
+<span *ngFor="let slot of slots; let i = index">
+        <button style="margin: 10px 20px;width: 120px;" type="button" (click)="slotButton(i, 1)" class="btn" [disabled]="slot.isReserved" [ngClass]="{'btn-success': !slot.isReserved,'btn-danger':slot.isReserved}">
+<span *ngIf="!slot.isReserved">Slot Available</span><span *ngIf="slot.isReserved">Slot Reserved</span>
+</button>
+</span>
+</div>
+</div>
+<div role="tabpanel" class="tab-pane fade" id="messages">
+    <div style="display: flex;align-items: center;justify-content: center;flex-wrap: wrap">
+<span *ngFor="let slot of slots; let i = index">
+        <button style="margin: 10px 20px;width: 120px;" type="button" (click)="slotButton(i, 2)" class="btn" [disabled]="slot.isReserved" [ngClass]="{'btn-success': !slot.isReserved,'btn-danger':slot.isReserved}">
+<span *ngIf="!slot.isReserved">Slot Available</span><span *ngIf="slot.isReserved">Slot Reserved</span>
+</button>
+</span>
+</div>
+</div>
+</div>
+
+</div>
 
 <div class="form-group" style="margin-top: 20px;">
+<span>{{error}}</span>
 <button type="submit" class="btn btn-block btn-primary">BOOK YOUR SLOT</button>
 </div>
 </form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="container" *ngIf="isAdmin" style="margin-top: 100px;">
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div class="panel-login">
+            <h1 style="text-align: center">All Bookings</h1>
+<hr>
+<div class="panel-body">
+    <table class="table table-striped">
+        <tr>
+            <th>Booked On</th>
+            <th>Slot No</th>
+            <th>Cancel Booking</th>
+        </tr>
+        <tr *ngFor="let booking of allRes; let i = index">
+            <td>{{booking.timestamp | amCalendar}}</td>
+            <td>{{booking.selectedSlot + 1}}</td>
+            <td><button type="button" (click)="removeUserBooking(booking.$key, booking.uid, booking.selectedLocation, booking.selectedSlot)"
+                    class="btn btn-danger">&times; Cancel Booking</button></td>
+        </tr>
+    </table>
+
 </div>
 </div>
 </div>

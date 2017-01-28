@@ -17,7 +17,7 @@ export class SigninContainer {
   loginUser(e) {
     this.fs.login(e.email, e.password)
       .then(auth => {
-        console.log(auth, "user is logged in successfully");
+        alert("logged in successfully");
         this.router.navigate(['home']);
       })
       .catch(err => console.log(err + "an error occured"));
